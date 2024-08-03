@@ -3,6 +3,8 @@ import db_redis
 import json
 import requests
 
+from config import bot_url
+
 
 # ==========================================================================================================================================
 
@@ -29,8 +31,8 @@ def get_bot_url_default():
     
 # ==========================================================================================================================================
 
-def sendMessage(chat_id, text):
-    tg_url = "https://api.telegram.org/bot5556519757:AAHrQvrSfsS-I20cgTVorxuBHFkN4IwtqRY/sendMessage"
+def sendMessage(chat_id, text, btns=None):
+    tg_url = bot_url + "sendMessage"
     headers = {
         "Content-Type": "application/json",
     }
@@ -39,12 +41,15 @@ def sendMessage(chat_id, text):
         "text": text,
         "parse_mode": "HTML",
     }
+
+    if btns is not None:
+        data["reply_markup"] = btns
     
     response = requests.post(tg_url, json=data, headers=headers, timeout=10)
 
 
 def editMessageText(chat_id, message_id, text, btns=None):
-    tg_url = "https://api.telegram.org/bot5556519757:AAHrQvrSfsS-I20cgTVorxuBHFkN4IwtqRY/editMessageText"
+    tg_url = bot_url + "editMessageText"
     headers = {
         "Content-Type": "application/json",
     }

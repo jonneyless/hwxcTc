@@ -15,3 +15,7 @@ redisInfo = {
     "host": env.str("REDIS_HOST", "127.0.0.1"),
     "port": env.int("REDIS_PORT", 6379),
 }
+
+bot_token = env.str('BOT_TOKEN', "5556519757:AAHrQvrSfsS-I20cgTVorxuBHFkN4IwtqRY")
+bot_tg_id = env.int('BOT_ID', 5556519757)
+bot_url = "https://api.telegram.org/bot%s/" % bot_token

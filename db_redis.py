@@ -38,8 +38,23 @@ def db_log_set(data):
     conn = get_conn10()
 
     conn.rpush(key, json.dumps(data))
-    
-    
+
+
+def clearFakeMsgQueue(data=None):
+    key = prefix + ":queue:clearFakeMsg"
+
+    conn = get_conn()
+
+    if data is not None:
+        conn.rpush(key, json.dumps(data))
+        return data
+
+    data = conn.lpop(key)
+    if data is None:
+        return None
+    else:
+        return json.loads(data)
+
 
 def hwxcData_get():
     key = prefix + "hwxcData_qq"

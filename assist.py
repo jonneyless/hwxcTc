@@ -64,5 +64,11 @@ def get_btns(user_tg_id):
     return {
         "inline_keyboard": arr
     }
+
+
+def get_confirm():
+    return {
+        "inline_keyboard": [[{"text": "确定", "callback_data": "cheat_from_msg"}]]
+    }
     
     
