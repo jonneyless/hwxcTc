@@ -1,8 +1,8 @@
-import db
-import db_redis
-import json
 import requests
 
+import db
+import db_redis
+import net
 from config import bot_url
 
 
@@ -64,5 +64,13 @@ def editMessageText(chat_id, message_id, text, btns=None):
         data["reply_markup"] = btns
     
     response = requests.post(tg_url, json=data, headers=headers, timeout=10)
-        
-    
+
+
+def updateChatPhoto(chatId, photo):
+    base_url = get_bot_url(chatId)
+
+    flag, description = net.setChatPhotoRequest(base_url, chatId, photo)
+    if flag == False:
+        return False
+
+    return True

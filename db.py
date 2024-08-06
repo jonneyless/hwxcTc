@@ -1,6 +1,6 @@
 import db_redis
-from dbpool import OPMysql
 from assist import get_current_time
+from dbpool import OPMysql
 
 
 # ==========================================================================================================================================
@@ -159,3 +159,18 @@ def user_group_new_update(group_tg_id, user_tg_id, is_admin=-1, status_in=-1, st
 
     return result
 
+
+def getGroupIds():
+    opm = OPMysql()
+
+    sql = "select chat_id from `groups` where deleted = 2 and opened = 1 and flag = 0"
+
+    result = opm.op_select_all(sql)
+
+    opm.dispose()
+
+    ids = []
+    for group in result:
+        ids.append(group['chat_id'])
+
+    return ids

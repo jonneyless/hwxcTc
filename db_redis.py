@@ -1,5 +1,7 @@
-import redis
 import json
+
+import redis
+
 from config import redisInfo
 
 redis_host = redisInfo['host']
@@ -108,5 +110,19 @@ def bot_url_set(group_tg_id, typee, bot_url):
     conn = get_conn()
     
     conn.set(key, bot_url, 300)  # 5分钟
-    
-    
+
+
+def updateChatPhoto(data=None):
+    key = prefix + ":chat:photo:update"
+
+    conn = get_conn()
+
+    if data is not None:
+        conn.rpush(key, json.dumps(data))
+        return
+
+    val = conn.lpop(key)
+    if val is None:
+        return None
+    else:
+        return json.loads(val)
