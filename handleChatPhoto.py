@@ -17,7 +17,13 @@ def Worker():
             break
 
         if not helpp.updateChatPhoto(data['groupId'], data['photo']):
-            q.put(data)
+            if data['retry'] < 3:
+                # 上传失败就丢队列尾部重试
+                data['retry'] = data['retry'] + 1
+                print(str(data['groupId']) + " retry " + str(data['retry']))
+                q.put(data)
+            else:
+                print(str(data['groupId']) + " failure ")
 
         q.task_done()
 
@@ -25,6 +31,7 @@ def Worker():
 if __name__ == '__main__':
     while True:
         data = db_redis.updateChatPhoto()
+        print('update chat photo:' + str(data['photo']))
         if data is not None:
             operatorId = data['operatorId']
             noticeId = data['noticeId']
@@ -40,7 +47,7 @@ if __name__ == '__main__':
 
             groupIds = db.getGroupIds()
             for groupId in groupIds:
-                q.put({'photo': photo, 'groupId': groupId})
+                q.put({'photo': photo, 'groupId': groupId, 'retry': 0})
 
             q.join()
 
