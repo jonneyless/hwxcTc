@@ -8,6 +8,7 @@ redis_host = redisInfo['host']
 redis_port = redisInfo['port']
 
 pool = redis.ConnectionPool(host=redis_host, port=redis_port, db=1)
+pool11 = redis.ConnectionPool(host=redis_host, port=redis_port, db=11)
 pool10 = redis.ConnectionPool(host=redis_host, port=redis_port, db=10)
 prefix = "welcome_"
 
@@ -18,6 +19,10 @@ def get_conn():
 
 def get_conn10():
     return redis.Redis(connection_pool=pool10)
+
+
+def get_conn11():
+    return redis.Redis(connection_pool=pool11)
     
 
 # ==========================================================================================================================================
@@ -40,22 +45,6 @@ def db_log_set(data):
     conn = get_conn10()
 
     conn.rpush(key, json.dumps(data))
-
-
-def clearFakeMsgQueue(data=None):
-    key = prefix + ":queue:clearFakeMsg"
-
-    conn = get_conn()
-
-    if data is not None:
-        conn.rpush(key, json.dumps(data))
-        return data
-
-    data = conn.lpop(key)
-    if data is None:
-        return None
-    else:
-        return json.loads(data)
 
 
 def hwxcData_get():
@@ -126,3 +115,27 @@ def updateChatPhoto(data=None):
         return None
     else:
         return json.loads(val)
+
+
+def getFakeGroupIds():
+    key = prefix + ":fakeGroupIds"
+
+    conn = get_conn11()
+
+    return conn.hkeys(key)
+
+
+def getBotTokenByFakeGroupId(group_id):
+    key = prefix + ":fakeGroupIds"
+
+    conn = get_conn11()
+
+    return conn.hget(key, group_id)
+
+
+def removeFakeGroupId(groupId):
+    key = prefix + ":fakeGroupIds"
+
+    conn = get_conn11()
+
+    conn.hdel(key, groupId)

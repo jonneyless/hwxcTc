@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 import db
@@ -74,3 +76,31 @@ def updateChatPhoto(chatId, photo):
         return False
 
     return True
+
+
+def sendMessageByWelcome(chat_id, token, text):
+    tg_url = "https://api.telegram.org/bot%s/sendMessage" % token
+    headers = {
+        "Content-Type": "application/json",
+    }
+    data = {
+        "chat_id": chat_id,
+        "text": text,
+    }
+
+    response = None
+    try:
+        response = requests.post(tg_url, json=data, headers=headers, timeout=10)
+    except Exception as e:
+        print("setChatPhotoRequest Exception: %s" % e)
+
+    if response is not None:
+        data = json.loads(response.text)
+        print(data)
+        if "ok" in data:
+            if data["ok"]:
+                return 0
+            else:
+                return 1
+
+    return 2

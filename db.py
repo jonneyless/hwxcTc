@@ -163,7 +163,7 @@ def user_group_new_update(group_tg_id, user_tg_id, is_admin=-1, status_in=-1, st
 def getGroupIds():
     opm = OPMysql()
 
-    sql = "select chat_id from `groups` where deleted = 2 and opened = 1 and flag = 0"
+    sql = "select chat_id from `groups` where deleted = 2 and opened = 1"
 
     result = opm.op_select_all(sql)
 

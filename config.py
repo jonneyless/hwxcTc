@@ -19,3 +19,6 @@ redisInfo = {
 bot_token = env.str('BOT_TOKEN', "5556519757:AAHrQvrSfsS-I20cgTVorxuBHFkN4IwtqRY")
 bot_tg_id = env.int('BOT_ID', 5556519757)
 bot_url = "https://api.telegram.org/bot%s/" % bot_token
+
+welcome_bot_token = env.str('WELCOME_BOT_TOKEN', "5759299188:AAHSTq6xbLEb9oWFBkLonFtn3nDLzLkR_EE")
+welcome_bot_url = "https://api.telegram.org/bot%s/" % welcome_bot_token
