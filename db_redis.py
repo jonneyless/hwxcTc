@@ -57,6 +57,14 @@ def hwxcData_get():
         return None
     else:
         return json.loads(data)
+
+
+def hwxcData_set(data):
+    key = prefix + "hwxcData_qq"
+
+    conn = get_conn()
+
+    conn.rpush(key, json.dumps(data))
         
         
 def hwxcData_xc_get():

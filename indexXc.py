@@ -22,12 +22,12 @@ class Police(threading.Thread):
 
     def run(self):
         if self.type == 'delete':
-            for chatId in self.items:
-                for userId in self.items[chatId]:
-                    msgIds = self.items[chatId][userId]
+            for cid in self.items:
+                for uid in self.items[cid]:
+                    msgIds = self.items[cid][uid]
 
-                    chatId = int(chatId)
-                    userId = int(userId)
+                    chatId = int(cid)
+                    userId = int(uid)
 
                     bot_url = helpp.get_bot_url(chatId)
 

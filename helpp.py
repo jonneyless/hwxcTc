@@ -68,12 +68,12 @@ def editMessageText(chat_id, message_id, text, btns=None):
 
 
 def sendMessageByWelcome(chat_id, token, text):
-    tg_url = "https://api.telegram.org/bot%s/sendMessage" % token
+    tg_url = "https://api.telegram.org/bot%s/sendMessage" % token.decode("utf-8")
     headers = {
         "Content-Type": "application/json",
     }
     data = {
-        "chat_id": chat_id,
+        "chat_id": chat_id.decode("utf-8"),
         "text": text,
     }
 
